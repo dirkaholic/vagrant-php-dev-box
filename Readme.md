@@ -16,6 +16,7 @@ Installed components
 
 * [Nginx](http://nginx.org)
 * [php-fpm](http://php-fpm.org)
-* git
+* [git](http://git-scm.com/)
+* [pear](http://pear.php.net/)
 * [Composer](http://getcomposer.org/)
 

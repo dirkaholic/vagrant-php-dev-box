@@ -59,7 +59,7 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl", "git" ]
+  $devPackages = [ "curl", "git", "php-pear" ]
   package { $devPackages: ensure => "installed" }
 
   exec { 'install composer':
