@@ -37,6 +37,10 @@ class nginx {
     ensure => present,
   }
 
+  service { "apache2":
+  	ensure => "stopped",
+  }
+	
   service { "nginx":
     ensure => running,
     require => Package["nginx"],
