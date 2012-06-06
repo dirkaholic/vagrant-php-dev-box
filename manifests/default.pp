@@ -43,10 +43,10 @@ class nginx {
   }
 
   file { "/etc/nginx/sites-available/php-fpm":
-        owner  => root,
-        group  => root,
-        mode   => 664,
-        source => "/vagrant/conf/nginx/default",
+    owner  => root,
+    group  => root,
+    mode   => 664,
+    source => "/vagrant/conf/nginx/default",
   }
 
   file { "/etc/nginx/sites-enabled/default":
@@ -59,7 +59,7 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl" ]
+  $devPackages = [ "curl", "git" ]
   package { $devPackages: ensure => "installed" }
 
   exec { 'install composer':
