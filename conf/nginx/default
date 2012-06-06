@@ -1,0 +1,52 @@
+server {
+    listen   80;
+    server_name  localhost;
+    access_log   /var/log/nginx/localhost.access.log;
+    error_log    /var/log/nginx/localhost.error.log error;
+
+## Default location
+    location / {
+        root   /vagrant/www;
+        index  index.php;
+#        try_files $uri $uri/ /index.php;
+    }
+
+## Images and static content is treated different
+    location ~* ^.+.(jpg|jpeg|gif|css|png|js|ico|xml)$ {
+      access_log        off;
+      expires           30d;
+      root /vagrant/www;
+    }
+
+## Parse all .php file in the /vagrant/www directory
+    location ~ .php$ {
+		root /vagrant/www;
+        fastcgi_split_path_info ^(.+\.php)(.*)$;
+        fastcgi_pass   backend;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  /vagrant/www$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_param  QUERY_STRING     $query_string;
+        fastcgi_param  REQUEST_METHOD   $request_method;
+        fastcgi_param  CONTENT_TYPE     $content_type;
+        fastcgi_param  CONTENT_LENGTH   $content_length;
+        fastcgi_intercept_errors        on;
+        fastcgi_ignore_client_abort     off;
+        fastcgi_connect_timeout 60;
+        fastcgi_send_timeout 180;
+        fastcgi_read_timeout 180;
+        fastcgi_buffer_size 128k;
+        fastcgi_buffers 4 256k;
+        fastcgi_busy_buffers_size 256k;
+        fastcgi_temp_file_write_size 256k;
+    }
+
+## Disable viewing .htaccess & .htpassword
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+
+upstream backend {
+        server 127.0.0.1:9000;
+}
