@@ -63,11 +63,11 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl", "git", "php-pear" ]
+  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm" ]
   package { $devPackages: ensure => "installed" }
 
-  exec { 'install composer':
-    command => '/usr/bin/curl -s http://getcomposer.org/installer | php'
+  exec { 'install less using npm':
+    command => '/usr/bin/npm install less -g'
   }
 }
 

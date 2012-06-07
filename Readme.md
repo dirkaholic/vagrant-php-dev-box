@@ -18,5 +18,6 @@ Installed components
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
 * [pear](http://pear.php.net/)
-* [Composer](http://getcomposer.org/)
+* [Node.js](http://nodejs.org/)
+* [npm](http://npmjs.org/)
 
