@@ -21,3 +21,10 @@ Installed components
 * [Node.js](http://nodejs.org/)
 * [npm](http://npmjs.org/)
 
+TODO
+----
+
+* Add database package
+* Make used packages choosable like Apache vs. Nginx vs. ...
+
+
