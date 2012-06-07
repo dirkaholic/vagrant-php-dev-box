@@ -8,7 +8,6 @@ server {
     location / {
         root   /vagrant/www;
         index  index.php;
-#        try_files $uri $uri/ /index.php;
     }
 
 ## Images and static content is treated different
@@ -47,6 +46,7 @@ server {
     }
 }
 
+## php-fpm backend
 upstream backend {
         server 127.0.0.1:9000;
 }
