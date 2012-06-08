@@ -1,9 +1,11 @@
 # Basic Puppet manifest
 
-class apt-get-update {
+Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
+
+class system-update {
 
   exec { 'apt-get update':
-    command => '/usr/bin/apt-get update'
+    command => 'apt-get update'
   }
 }
 
@@ -13,8 +15,11 @@ class php5 {
     ensure => present,
   }
 
-  $fpmPrerequisites = [ "php5-cli", "php5-common", "php5-suhosin" ]
-  package { $fpmPrerequisites: ensure => "installed" }
+  $fpmPrerequisites = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug" ]
+  package { $fpmPrerequisites:
+    ensure => "installed",
+    notify => Service["php5-fpm"],
+  }
 
   # as there was an issue in installation order we install that separatly
   package { "php5-cgi":
@@ -28,6 +33,30 @@ class php5 {
   service { "php5-fpm":
     ensure => running,
     require => Package["php5-fpm"],
+  }
+
+  file { "/etc/php5/conf.d/suhosin.ini":
+    owner  => root,
+    group  => root,
+    mode   => 664,
+    source => "/vagrant/conf/php/suhosin.ini",
+    notify => Service["php5-fpm"],
+  }
+
+  file { "/etc/php5/conf.d/custom.ini":
+    owner  => root,
+    group  => root,
+    mode   => 664,
+    source => "/vagrant/conf/php/custom.ini",
+    notify => Service["php5-fpm"],
+  }
+
+  file { "/etc/php5/fpm/pool.d/www.conf":
+    owner  => root,
+    group  => root,
+    mode   => 664,
+    source => "/vagrant/conf/php/php-fpm/www.conf",
+    notify => Service["php5-fpm"],
   }
 }
 
@@ -67,13 +96,36 @@ class development {
   package { $devPackages: ensure => "installed" }
 
   exec { 'install less using npm':
-    command => '/usr/bin/npm install less -g'
+    command => 'npm install less -g'
   }
 }
 
-include apt-get-update
+class symfony-standard {
+
+  exec { 'git clone symfony standard':
+      command => 'git clone https://github.com/symfony/symfony-standard.git /vagrant/www/symfony',
+      creates => "/vagrant/www/symfony"
+  }
+
+  exec { 'install composer for symfony':
+    command => 'curl -s http://getcomposer.org/installer | php -- --install-dir=/vagrant/www/symfony'
+  }
+
+  exec { 'run composer for symfony':
+    command => 'php composer.phar install --prefer-source',
+    cwd => "/vagrant/www/symfony"
+  }
+
+#  file { "/vagrant/www/symfony/app/cache":
+#    mode => 777,
+#    recurse => true
+#  }
+}
+
+include system-update
 include php5
 include nginx
 include development
+include symfony-standard
 
 

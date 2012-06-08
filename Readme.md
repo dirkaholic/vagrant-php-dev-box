@@ -9,7 +9,7 @@ Installation
 * Clone this repository
 * Run ```vagrant init precise64``` for a single time (use choosen box name) inside the cloned repository
 * After running ```vagrant up``` the box is set up using Puppet
-* You should now have your working nginx pointing to the www directory as document root under http://localhost:9090/ (showing phpinfo() ouput actually)
+* You should now have your working Symfony2 Standard Edition under http://localhost:9090/app_dev.php
 
 Installed components
 --------------------
@@ -20,6 +20,7 @@ Installed components
 * [pear](http://pear.php.net/)
 * [Node.js](http://nodejs.org/)
 * [npm](http://npmjs.org/)
+* [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 
 TODO
 ----
