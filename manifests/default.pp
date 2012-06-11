@@ -15,7 +15,7 @@ class php5 {
     ensure => present,
   }
 
-  $fpmPrerequisites = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug" ]
+  $fpmPrerequisites = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug", "php5-mysql" ]
   package { $fpmPrerequisites:
     ensure => "installed",
     notify => Service["php5-fpm"],
