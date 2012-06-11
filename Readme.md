@@ -21,11 +21,12 @@ Installed components
 * [Node.js](http://nodejs.org/)
 * [npm](http://npmjs.org/)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
+* [MySQL](http://dev.mysql.com/downloads/mysql/)
+* [MongoDB](http://www.mongodb.org/)
 
 TODO
 ----
 
-* Add database package
 * Make used packages choosable like Apache vs. Nginx vs. ...
 
 

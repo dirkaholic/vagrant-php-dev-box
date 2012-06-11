@@ -4,8 +4,26 @@ Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
 class system-update {
 
+  file { "/etc/apt/sources.list.d/10gen.list":
+    owner  => root,
+    group  => root,
+    mode   => 664,
+    source => "/vagrant/conf/apt/10gen.list",
+  }
+
+  exec { 'import the 10gen public GPG key':
+    command => 'apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10'
+  }
+
   exec { 'apt-get update':
-    command => 'apt-get update'
+    command => 'apt-get update',
+    require => Exec['import the 10gen public GPG key'],
+  }
+
+  $sysPackages = [ "build-essential" ]
+  package { $sysPackages:
+    ensure => "installed",
+    require => Exec['apt-get update'],
   }
 }
 
@@ -15,19 +33,27 @@ class php5 {
     ensure => present,
   }
 
-  $fpmPrerequisites = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug", "php5-mysql" ]
-  package { $fpmPrerequisites:
+  $phpPackages = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug", "php5-mysql", "php5-sqlite", "php5-dev" ]
+  package { $phpPackages:
     ensure => "installed",
+    require => Exec['apt-get update'],
     notify => Service["php5-fpm"],
   }
 
   # as there was an issue in installation order we install that separatly
   package { "php5-cgi":
     ensure => installed,
+    require => Exec['apt-get update'],
+  }
+
+  exec { 'install PHP MongoDB extension via pecl':
+    command => 'pecl install mongo',
+    notify => Service["php5-fpm"],
   }
 
   package { "php5-fpm":
     ensure => present,
+    require => Exec['apt-get update'],
   }
 
   service { "php5-fpm":
@@ -49,6 +75,7 @@ class php5 {
     mode   => 664,
     source => "/vagrant/conf/php/custom.ini",
     notify => Service["php5-fpm"],
+    require => Package["php5-common"],
   }
 
   file { "/etc/php5/fpm/pool.d/www.conf":
@@ -57,6 +84,7 @@ class php5 {
     mode   => 664,
     source => "/vagrant/conf/php/php-fpm/www.conf",
     notify => Service["php5-fpm"],
+    require => Package["php5-fpm"],
   }
 }
 
@@ -92,11 +120,19 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm" ]
-  package { $devPackages: ensure => "installed" }
+  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen" ]
+  package { $devPackages:
+    ensure => "installed",
+    require => Exec['apt-get update'],
+  }
 
   exec { 'install less using npm':
     command => 'npm install less -g'
+  }
+
+  service { "mongodb":
+    ensure => running,
+    require => Package["mongodb-10gen"],
   }
 }
 
@@ -115,11 +151,6 @@ class symfony-standard {
     command => 'php composer.phar install --prefer-source',
     cwd => "/vagrant/www/symfony"
   }
-
-#  file { "/vagrant/www/symfony/app/cache":
-#    mode => 777,
-#    recurse => true
-#  }
 }
 
 include system-update
