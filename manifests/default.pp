@@ -121,7 +121,7 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen", "capistrano" ]
+  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen", "capistrano", "rubygems" ]
   package { $devPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
@@ -130,6 +130,16 @@ class development {
   exec { 'install less using npm':
     command => 'npm install less -g',
     require => Package["npm"],
+  }
+
+  exec { 'install capifony using RubyGems':
+    command => 'gem install capifony',
+    require => Package["rubygems"],
+  }
+
+  exec { 'install capistrano_rsync_with_remote_cache using RubyGems':
+    command => 'gem install capistrano_rsync_with_remote_cache',
+    require => Package["capistrano"],
   }
 
   service { "mongodb":

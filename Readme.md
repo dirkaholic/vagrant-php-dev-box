@@ -25,6 +25,7 @@ Installed components
 * [MySQL](http://dev.mysql.com/downloads/mysql/)
 * [MongoDB](http://www.mongodb.org/)
 * [Capistrano](https://github.com/capistrano/capistrano)
+* [capifony](http://capifony.org/)
 
 TODO
 ----
