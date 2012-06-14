@@ -48,6 +48,7 @@ class php5 {
 
   exec { 'install PHP MongoDB extension via pecl':
     command => 'pecl install mongo',
+    unless => "pecl info mongo",
     notify => Service["php5-fpm"],
   }
 
@@ -120,14 +121,15 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen" ]
+  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen", "capistrano" ]
   package { $devPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
   }
 
   exec { 'install less using npm':
-    command => 'npm install less -g'
+    command => 'npm install less -g',
+    require => Package["npm"],
   }
 
   service { "mongodb":
@@ -143,13 +145,21 @@ class symfony-standard {
       creates => "/vagrant/www/symfony"
   }
 
-  exec { 'install composer for symfony':
-    command => 'curl -s http://getcomposer.org/installer | php -- --install-dir=/vagrant/www/symfony'
+  exec { 'install composer for symfony when needed':
+    command => 'curl -s http://getcomposer.org/installer | php -- --install-dir=/vagrant/www/symfony',
+    onlyif  => "test -e /vagrant/www/symfony/composer.json",
   }
 
-  exec { 'run composer for symfony':
+  exec { 'run composer for symfony when composer is used':
     command => 'php composer.phar install --prefer-source',
-    cwd => "/vagrant/www/symfony"
+    cwd => "/vagrant/www/symfony",
+    onlyif  => "test -e /vagrant/www/symfony/composer.json",
+  }
+
+  exec { 'run vendor installation from deps when composer is not used':
+    command => 'php bin/vendors install',
+    cwd => "/vagrant/www/symfony",
+    unless  => "test -e /vagrant/www/symfony/composer.json",
   }
 }
 

@@ -20,9 +20,11 @@ Installed components
 * [pear](http://pear.php.net/)
 * [Node.js](http://nodejs.org/)
 * [npm](http://npmjs.org/)
+* [less](http://lesscss.org/)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [MySQL](http://dev.mysql.com/downloads/mysql/)
 * [MongoDB](http://www.mongodb.org/)
+* [Capistrano](https://github.com/capistrano/capistrano)
 
 TODO
 ----
