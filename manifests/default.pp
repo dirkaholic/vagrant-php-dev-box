@@ -121,7 +121,7 @@ class nginx {
 
 class development {
 
-  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen", "capistrano", "rubygems" ]
+  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen", "capistrano", "rubygems", "openjdk-7-jdk" ]
   package { $devPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
