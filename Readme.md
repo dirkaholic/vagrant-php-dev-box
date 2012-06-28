@@ -26,6 +26,7 @@ Installed components
 * [MongoDB](http://www.mongodb.org/)
 * [Capistrano](https://github.com/capistrano/capistrano)
 * [capifony](http://capifony.org/)
+* [phpunit](http://www.phpunit.de)
 
 TODO
 ----

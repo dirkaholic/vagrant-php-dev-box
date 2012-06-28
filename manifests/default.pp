@@ -146,6 +146,15 @@ class development {
     ensure => running,
     require => Package["mongodb-10gen"],
   }
+
+  exec { 'set pear autodiscover':
+    command => 'pear config-set auto_discover 1',
+  }
+
+  exec { 'install phpunit':
+    command => 'pear install pear.phpunit.de/PHPUnit',
+    require => Exec['set pear autodiscover'],
+  }
 }
 
 class symfony-standard {
