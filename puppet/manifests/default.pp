@@ -94,10 +94,6 @@ class nginx {
   package { "nginx":
     ensure => present,
   }
-
-  service { "apache2":
-  	ensure => "stopped",
-  }
 	
   service { "nginx":
     ensure => running,
@@ -109,6 +105,7 @@ class nginx {
     group  => root,
     mode   => 664,
     source => "/vagrant/conf/nginx/default",
+    notify => Service["nginx"],
   }
 
   file { "/etc/nginx/sites-enabled/default":
