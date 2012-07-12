@@ -1,5 +1,5 @@
 server {
-    listen   80;
+    listen   81;
     server_name  localhost;
     access_log   /var/log/nginx/localhost.access.log;
     error_log    /var/log/nginx/localhost.error.log error;

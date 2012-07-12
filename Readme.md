@@ -9,12 +9,13 @@ Installation
 * Clone this repository
 * Run ```vagrant init precise64``` for a single time (use choosen box name) inside the cloned repository
 * After running ```vagrant up``` the box is set up using Puppet
-* You should now have your working Symfony2 Standard Edition under http://localhost:9090/app_dev.php
+* You should now have your working Symfony2 Standard Edition under http://localhost:9191/app_dev.php
 
 Installed components
 --------------------
 
 * [Nginx](http://nginx.org)
+* [Apache](http://www.apache.org/)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
 * [pear](http://pear.php.net/)
