@@ -30,9 +30,5 @@ Installed components
 * [capifony](http://capifony.org/)
 * [phpunit](http://www.phpunit.de)
 
-TODO
-----
-
-* Make used packages choosable like Apache vs. Nginx vs. ...
 
 
