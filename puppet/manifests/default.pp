@@ -90,22 +90,16 @@ class php5 {
   }
 }
 
-class nginx {
+class nginx-setup {
 
-  package { "nginx":
-    ensure => present,
-  }
-	
-  service { "nginx":
-    ensure => running,
-    require => Package["nginx"],
-  }
+  include nginx
 
   file { "/etc/nginx/sites-available/php-fpm":
     owner  => root,
     group  => root,
     mode   => 664,
     source => "/vagrant/conf/nginx/default",
+    require => Package["nginx"],
     notify => Service["nginx"],
   }
 
@@ -113,6 +107,7 @@ class nginx {
     owner  => root,
     ensure => link,
     target => "/etc/nginx/sites-available/php-fpm",
+    require => Package["nginx"],
     notify => Service["nginx"],
   }
 }
@@ -153,14 +148,15 @@ class development {
   exec { 'install phpunit':
     command => 'pear install pear.phpunit.de/PHPUnit',
     require => Exec['set pear autodiscover'],
+    creates => "/usr/bin/phpunit",
   }
 }
 
 class symfony-standard {
 
   exec { 'git clone symfony standard':
-      command => 'git clone https://github.com/symfony/symfony-standard.git /vagrant/www/symfony',
-      creates => "/vagrant/www/symfony"
+    command => 'git clone https://github.com/symfony/symfony-standard.git /vagrant/www/symfony',
+    creates => "/vagrant/www/symfony"
   }
 
   exec { 'install composer for symfony when needed':
@@ -169,9 +165,12 @@ class symfony-standard {
   }
 
   exec { 'run composer for symfony when composer is used':
-    command => 'php composer.phar install --prefer-source',
+    command => 'php composer.phar install',
     cwd => "/vagrant/www/symfony",
     onlyif  => "test -e /vagrant/www/symfony/composer.json",
+    timeout => 0,
+    tries   => 10,
+    require => Exec['install composer for symfony when needed'],
   }
 
   exec { 'run vendor installation from deps when composer is not used':
@@ -183,7 +182,7 @@ class symfony-standard {
 
 include system-update
 include php5
-include nginx
+include nginx-setup
 include apache
 include mysql
 include development

@@ -14,7 +14,7 @@ Installation
 Installed components
 --------------------
 
-* [Nginx](http://nginx.org)
+* [Nginx](http://nginx.org) using puppet module (https://github.com/example42/puppet-nginx)
 * [Apache](http://httpd.apache.org/) using puppet module (https://github.com/example42/puppet-apache)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
