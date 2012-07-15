@@ -16,7 +16,7 @@ Installed components
 --------------------
 
 * [Nginx](http://nginx.org)
-* [Apache](http://www.apache.org/)
+* [Apache](http://www.apache.org/) using puppet module (https://github.com/example42/puppet-apache)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
 * [pear](http://pear.php.net/)
