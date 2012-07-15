@@ -5,9 +5,10 @@ Installation
 ------------
 
 * Install vagrant using the installation instructions in the [Getting Started document](http://vagrantup.com/v1/docs/getting-started/index.html)
-* Add a Ubuntu Precise box using the [available official boxes](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Boxes), for example: ```vagrant box add precise64 http://files.vagrantup.com/precise64.box```
+* Add a Ubuntu Precise box using the [available official boxes](https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Boxes), for example: ```vagrant box add phpdevbox http://files.vagrantup.com/precise64.box```
 * Clone this repository
-* Run ```vagrant init precise64``` for a single time (use choosen box name) inside the cloned repository
+* Install submodules with ```git submodule init``` and ```git submodule update```
+* Run ```vagrant init phpdevbox``` for a single time (use choosen box name) inside the cloned repository
 * After running ```vagrant up``` the box is set up using Puppet
 * You should now have your working Symfony2 Standard Edition under http://localhost:9191/app_dev.php
 
