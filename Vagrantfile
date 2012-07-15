@@ -99,5 +99,6 @@ Vagrant::Config.run do |config|
   #
   #   chef.validation_client_name = "ORGNAME-validator"
 
+  # allow symlinks in vm
   config.vm.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
 end

@@ -33,7 +33,7 @@ class php5 {
     ensure => present,
   }
 
-  $phpPackages = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug", "php5-mysql", "php5-sqlite", "php5-dev" ]
+  $phpPackages = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug", "php5-sqlite", "php5-dev" ]
   package { $phpPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
@@ -68,6 +68,7 @@ class php5 {
     mode   => 664,
     source => "/vagrant/conf/php/suhosin.ini",
     notify => Service["php5-fpm"],
+    require => Package["php5-common"],
   }
 
   file { "/etc/php5/conf.d/custom.ini":
@@ -146,6 +147,7 @@ class development {
 
   exec { 'set pear autodiscover':
     command => 'pear config-set auto_discover 1',
+    require => Package["php-pear"],
   }
 
   exec { 'install phpunit':
@@ -183,6 +185,7 @@ include system-update
 include php5
 include nginx
 include apache
+include mysql
 include development
 include symfony-standard
 
