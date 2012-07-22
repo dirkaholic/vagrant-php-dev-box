@@ -24,10 +24,7 @@ Installed components
 * [less](http://lesscss.org/)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [MySQL](http://dev.mysql.com/downloads/mysql/) using puppet module (https://github.com/example42/puppet-mysql)
-* [MongoDB](http://www.mongodb.org/)
+* [MongoDB](http://www.mongodb.org/) using puppet module (https://github.com/puppetlabs/puppetlabs-mongodb.git)
 * [Capistrano](https://github.com/capistrano/capistrano)
 * [capifony](http://capifony.org/)
-* [phpunit](http://www.phpunit.de)
-
-
-
+* Most of the [phpqatools](http://www.phpqatools.org) using puppet module (https://github.com/rafaelfelix/puppet-phpqatools)

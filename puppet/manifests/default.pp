@@ -4,20 +4,8 @@ Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
 class system-update {
 
-  file { "/etc/apt/sources.list.d/10gen.list":
-    owner  => root,
-    group  => root,
-    mode   => 664,
-    source => "/vagrant/conf/apt/10gen.list",
-  }
-
-  exec { 'import the 10gen public GPG key':
-    command => 'apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10'
-  }
-
   exec { 'apt-get update':
     command => 'apt-get update',
-    require => Exec['import the 10gen public GPG key'],
   }
 
   $sysPackages = [ "build-essential" ]
@@ -114,7 +102,7 @@ class nginx-setup {
 
 class development {
 
-  $devPackages = [ "curl", "git", "php-pear", "nodejs", "npm", "mongodb-10gen", "capistrano", "rubygems", "openjdk-7-jdk" ]
+  $devPackages = [ "curl", "git", "nodejs", "npm", "capistrano", "rubygems", "openjdk-7-jdk" ]
   package { $devPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
@@ -135,21 +123,16 @@ class development {
     require => Package["capistrano"],
   }
 
-  service { "mongodb":
-    ensure => running,
-    require => Package["mongodb-10gen"],
-  }
+#  exec { 'set pear autodiscover':
+#    command => 'pear config-set auto_discover 1',
+#    require => Package["php-pear"],
+#  }
 
-  exec { 'set pear autodiscover':
-    command => 'pear config-set auto_discover 1',
-    require => Package["php-pear"],
-  }
-
-  exec { 'install phpunit':
-    command => 'pear install pear.phpunit.de/PHPUnit',
-    require => Exec['set pear autodiscover'],
-    creates => "/usr/bin/phpunit",
-  }
+#  exec { 'install phpunit':
+#    command => 'pear install pear.phpunit.de/PHPUnit',
+#    require => Exec['set pear autodiscover'],
+#    creates => "/usr/bin/phpunit",
+#  }
 }
 
 class symfony-standard {
@@ -185,6 +168,12 @@ include php5
 include nginx-setup
 include apache
 include mysql
+
+class {'mongodb':
+  enable_10gen => true,
+}
+
+include phpqatools
 include development
 include symfony-standard
 
