@@ -122,17 +122,6 @@ class development {
     command => 'gem install capistrano_rsync_with_remote_cache',
     require => Package["capistrano"],
   }
-
-#  exec { 'set pear autodiscover':
-#    command => 'pear config-set auto_discover 1',
-#    require => Package["php-pear"],
-#  }
-
-#  exec { 'install phpunit':
-#    command => 'pear install pear.phpunit.de/PHPUnit',
-#    require => Exec['set pear autodiscover'],
-#    creates => "/usr/bin/phpunit",
-#  }
 }
 
 class symfony-standard {
