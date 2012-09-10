@@ -16,7 +16,7 @@ Installed components
 
 * [Nginx](http://nginx.org) using puppet module (https://github.com/example42/puppet-nginx)
 * [Apache](http://httpd.apache.org/) using puppet module (https://github.com/example42/puppet-apache)
-* [php-fpm](http://php-fpm.org)
+* [php-fpm](http://php-fpm.org) using puppet module (https://github.com/saz/puppet-php)
 * [git](http://git-scm.com/)
 * [pear](http://pear.php.net/) using puppet module (https://github.com/rafaelfelix/puppet-pear)
 * [Node.js](http://nodejs.org/)

@@ -1,0 +1,5 @@
+deb http://packages.dotdeb.org squeeze all
+deb-src http://packages.dotdeb.org squeeze all
+
+deb http://packages.dotdeb.org squeeze-php54 all
+deb-src http://packages.dotdeb.org squeeze-php54 all

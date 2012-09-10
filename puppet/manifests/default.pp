@@ -4,6 +4,22 @@ Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
 class system-update {
 
+    file { "/etc/apt/sources.list.d/dotdeb.list":
+        owner  => root,
+        group  => root,
+        mode   => 664,
+        source => "/vagrant/conf/apt/dotdeb.list",
+    }
+
+    exec { 'dotdeb-apt-key':
+        cwd     => '/tmp',
+        command => "wget http://www.dotdeb.org/dotdeb.gpg -O dotdeb.gpg &&
+                    cat dotdeb.gpg | apt-key add -",
+        unless  => 'apt-key list | grep dotdeb',
+        require => File['/etc/apt/sources.list.d/dotdeb.list'],
+        notify  => Exec['apt_update'],
+    }
+
   exec { 'apt-get update':
     command => 'apt-get update',
   }
@@ -12,69 +28,6 @@ class system-update {
   package { $sysPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
-  }
-}
-
-class php5 {
-
-  package { "php5":
-    ensure => present,
-  }
-
-  $phpPackages = [ "php5-cli", "php5-common", "php5-suhosin", "php-apc", "php5-intl", "php5-xdebug", "php5-sqlite", "php5-dev" ]
-  package { $phpPackages:
-    ensure => "installed",
-    require => Exec['apt-get update'],
-    notify => Service["php5-fpm"],
-  }
-
-  # as there was an issue in installation order we install that separatly
-  package { "php5-cgi":
-    ensure => installed,
-    require => Exec['apt-get update'],
-  }
-
-  exec { 'install PHP MongoDB extension via pecl':
-    command => 'pecl install mongo',
-    unless => "pecl info mongo",
-    notify => Service["php5-fpm"],
-  }
-
-  package { "php5-fpm":
-    ensure => present,
-    require => Exec['apt-get update'],
-  }
-
-  service { "php5-fpm":
-    ensure => running,
-    require => Package["php5-fpm"],
-  }
-
-  file { "/etc/php5/conf.d/suhosin.ini":
-    owner  => root,
-    group  => root,
-    mode   => 664,
-    source => "/vagrant/conf/php/suhosin.ini",
-    notify => Service["php5-fpm"],
-    require => Package["php5-common"],
-  }
-
-  file { "/etc/php5/conf.d/custom.ini":
-    owner  => root,
-    group  => root,
-    mode   => 664,
-    source => "/vagrant/conf/php/custom.ini",
-    notify => Service["php5-fpm"],
-    require => Package["php5-common"],
-  }
-
-  file { "/etc/php5/fpm/pool.d/www.conf":
-    owner  => root,
-    group  => root,
-    mode   => 664,
-    source => "/vagrant/conf/php/php-fpm/www.conf",
-    notify => Service["php5-fpm"],
-    require => Package["php5-fpm"],
   }
 }
 
@@ -102,7 +55,7 @@ class nginx-setup {
 
 class development {
 
-  $devPackages = [ "curl", "git", "nodejs", "npm", "capistrano", "rubygems", "openjdk-7-jdk" ]
+  $devPackages = [ "curl", "git", "nodejs", "npm", "capistrano", "rubygems", "openjdk-7-jdk", "libaugeas-ruby" ]
   package { $devPackages:
     ensure => "installed",
     require => Exec['apt-get update'],
@@ -137,7 +90,7 @@ class symfony-standard {
   }
 
   exec { 'run composer for symfony when composer is used':
-    command => 'php composer.phar install',
+    command => 'php composer.phar --verbose install',
     cwd => "/vagrant/www/symfony",
     onlyif  => "test -e /vagrant/www/symfony/composer.json",
     timeout => 0,
@@ -152,8 +105,70 @@ class symfony-standard {
   }
 }
 
+class devbox_php_fpm {
+
+    php::module { [
+        'curl', 'gd', 'mcrypt', 'memcached', 'mysql',
+        'tidy', 'xhprof', 'imap',
+        ]:
+        #require => Apt::Sources_list['dotdeb-php53'],
+        notify => Class['php::fpm::service'],
+    }
+
+    php::module { [ 'memcache', 'apc', ]:
+        notify => Class['php::fpm::service'],
+        source  => '/etc/php5/conf.d/',
+    }
+
+    php::module { [ 'xdebug', ]:
+        #require => Apt::Sources_list['dotdeb-php53'],
+        notify  => Class['php::fpm::service'],
+        source  => '/etc/php5/conf.d/',
+    }
+
+    php::module { [ 'suhosin', ]:
+        #require => Apt::Sources_list['dotdeb-php53'],
+        notify  => Class['php::fpm::service'],
+        source  => '/vagrant/conf/php/',
+    }
+
+    exec { 'pecl-mongo-install':
+        command => 'pecl install mongo',
+        unless => "pecl info mongo",
+        notify => Class['php::fpm::service'],
+    }
+
+    php::conf { [ 'mysqli', 'pdo', 'pdo_mysql', ]:
+        require => Package['php-mysql'],
+        notify  => Class['php::fpm::service'],
+    }
+
+    file { "/etc/php5/conf.d/custom.ini":
+        owner  => root,
+        group  => root,
+        mode   => 664,
+        source => "/vagrant/conf/php/custom.ini",
+        notify => Class['php::fpm::service'],
+    }
+
+    include php::fpm
+
+    file { "/etc/php5/fpm/pool.d/www.conf":
+        owner  => root,
+        group  => root,
+        mode   => 664,
+        source => "/vagrant/conf/php/php-fpm/www.conf",
+        notify => Class['php::fpm::service'],
+    }
+}
+
+class { 'apt': }
+
 include system-update
-include php5
+
+include php::fpm
+include devbox_php_fpm
+
 include nginx-setup
 include apache
 include mysql
