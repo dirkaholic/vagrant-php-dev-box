@@ -111,7 +111,6 @@ class devbox_php_fpm {
         'curl', 'gd', 'mcrypt', 'memcached', 'mysql',
         'tidy', 'xhprof', 'imap',
         ]:
-        #require => Apt::Sources_list['dotdeb-php53'],
         notify => Class['php::fpm::service'],
     }
 
@@ -121,13 +120,11 @@ class devbox_php_fpm {
     }
 
     php::module { [ 'xdebug', ]:
-        #require => Apt::Sources_list['dotdeb-php53'],
         notify  => Class['php::fpm::service'],
         source  => '/etc/php5/conf.d/',
     }
 
     php::module { [ 'suhosin', ]:
-        #require => Apt::Sources_list['dotdeb-php53'],
         notify  => Class['php::fpm::service'],
         source  => '/vagrant/conf/php/',
     }
