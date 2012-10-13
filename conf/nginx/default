@@ -27,7 +27,7 @@ server {
 
 ## Parse all .php file in the /vagrant/www/symfony/web directory
     location ~ ^/(app|app_dev)\.php(/|$) {
-		root /vagrant/www/symfony/web;
+        root /vagrant/www/symfony/web;
         fastcgi_split_path_info ^(.+\.php)(.*)$;
         fastcgi_pass   backend;
         fastcgi_index  index.php;
