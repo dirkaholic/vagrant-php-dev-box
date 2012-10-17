@@ -28,3 +28,17 @@ Installed components
 * [Capistrano](https://github.com/capistrano/capistrano)
 * [capifony](http://capifony.org/)
 * Most of the [phpqatools](http://www.phpqatools.org) using puppet module (https://github.com/rafaelfelix/puppet-phpqatools)
+
+Debugging
+---------
+
+If you want to debug your cli application using xdebug for example with Netbeans just run this command before executing the cli app:
+
+.. code-block:: sh
+
+    $ export XDEBUG_CONFIG="idekey=netbeans-xdebug remote_host=192.168.33.1 profiler_enable=1 default_enable=1 remote_enable=1 remote_handler=dbgp remote_port=9000 remote_autostart=0"
+
+TODO
+----
+
+* Install and configure xhprof
