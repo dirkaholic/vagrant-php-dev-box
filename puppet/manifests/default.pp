@@ -135,6 +135,12 @@ class devbox_php_fpm {
         notify => Class['php::fpm::service'],
     }
 
+    exec { 'pecl-xhprof-install':
+        command => 'pecl install xhprof',
+        unless => "pecl info xhprof",
+        notify => Class['php::fpm::service'],
+    }
+
     php::conf { [ 'mysqli', 'pdo', 'pdo_mysql', ]:
         require => Package['php-mysql'],
         notify  => Class['php::fpm::service'],
