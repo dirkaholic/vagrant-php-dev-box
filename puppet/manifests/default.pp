@@ -133,12 +133,14 @@ class devbox_php_fpm {
         command => 'pecl install mongo',
         unless => "pecl info mongo",
         notify => Class['php::fpm::service'],
+        require => Package['php-pear'],
     }
 
     exec { 'pecl-xhprof-install':
-        command => 'pecl install xhprof',
+        command => 'pecl install xhprof-0.9.2',
         unless => "pecl info xhprof",
         notify => Class['php::fpm::service'],
+        require => Package['php-pear'],
     }
 
     php::conf { [ 'mysqli', 'pdo', 'pdo_mysql', ]:
@@ -154,8 +156,6 @@ class devbox_php_fpm {
         notify => Class['php::fpm::service'],
     }
 
-    include php::fpm
-
     file { "/etc/php5/fpm/pool.d/www.conf":
         owner  => root,
         group  => root,
@@ -165,7 +165,11 @@ class devbox_php_fpm {
     }
 }
 
-class { 'apt': }
+class { 'apt':
+  always_apt_update    => true
+}
+
+Exec["apt-get update"] -> Package <| |>
 
 include system-update
 

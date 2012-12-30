@@ -9,7 +9,7 @@ Installation
 * Clone this repository
 * Install submodules with ```git submodule update --init```
 * After running ```vagrant up``` the box is set up using Puppet
-* You should now have your working Symfony2 Standard Edition under http://localhost:8181/app_dev.php
+* You should now have your working Symfony2 Standard Edition under http://localhost:8181/app_dev.php (You have to uncomment or remove some lines at the beginning of web/app_dev.php that restrict access to this file. Is no risk as you should not deploy that file to prodution anyway.)
 
 Installed components
 --------------------
@@ -37,6 +37,19 @@ If you want to debug your cli application using xdebug for example with Netbeans
 .. code-block:: sh
 
     $ export XDEBUG_CONFIG="idekey=netbeans-xdebug remote_host=192.168.33.1 profiler_enable=1 default_enable=1 remote_enable=1 remote_handler=dbgp remote_port=9000 remote_autostart=0"
+
+Hints
+-----
+
+**Startup speed**
+
+To speed up the startup process use
+
+.. code-block:: sh
+
+    $ vagrant up --no-provision
+
+after the first run. It just starts the virtual machine without provisioning of the recipes.
 
 TODO
 ----
