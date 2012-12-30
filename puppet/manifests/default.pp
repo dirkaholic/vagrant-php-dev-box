@@ -99,7 +99,7 @@ class symfony-standard {
   }
 
   exec { 'run vendor installation from deps when composer is not used':
-    command => 'php bin/vendors install',
+    command => 'php bin/vendors update',
     cwd => "/vagrant/www/symfony",
     unless  => "test -e /vagrant/www/symfony/composer.json",
   }

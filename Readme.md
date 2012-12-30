@@ -53,5 +53,3 @@ after the first run. It just starts the virtual machine without provisioning of 
 
 TODO
 ----
-
-* Install and configure xhprof
