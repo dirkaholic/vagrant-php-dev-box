@@ -28,6 +28,7 @@ Installed components
 * [Capistrano](https://github.com/capistrano/capistrano)
 * [capifony](http://capifony.org/)
 * Most of the [phpqatools](http://www.phpqatools.org) using puppet module (https://github.com/rafaelfelix/puppet-phpqatools)
+* [xdebug](http://xdebug.org/)
 
 Debugging
 ---------
