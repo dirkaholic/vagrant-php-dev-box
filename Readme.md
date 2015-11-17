@@ -36,9 +36,9 @@ Debugging
 
 If you want to debug your cli application using xdebug for example with Netbeans just run this command before executing the cli app:
 
-.. code-block:: sh
-
-    $ export XDEBUG_CONFIG="idekey=netbeans-xdebug remote_host=192.168.33.1 profiler_enable=1 default_enable=1 remote_enable=1 remote_handler=dbgp remote_port=9000 remote_autostart=0"
+```bash
+$ export XDEBUG_CONFIG="idekey=netbeans-xdebug remote_host=192.168.33.1 profiler_enable=1 default_enable=1 remote_enable=1 remote_handler=dbgp remote_port=9000 remote_autostart=0"
+```
 
 Hints
 -----
@@ -47,9 +47,9 @@ Hints
 
 To speed up the startup process use
 
-.. code-block:: sh
-
-    $ vagrant up --no-provision
+```bash
+$ vagrant up --no-provision
+```
 
 after the first run. It just starts the virtual machine without provisioning of the recipes.
 
