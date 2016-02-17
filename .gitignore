@@ -1,3 +1,4 @@
 .DS_Store
 .vagrant
 .idea/
+vagrant-php-dev-box.iml
