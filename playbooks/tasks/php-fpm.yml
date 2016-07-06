@@ -4,7 +4,7 @@
 
 - name: Copy across new php-fpm pool config
   template:
-    src=www.conf.j2
+    src=php-fpm/www.conf.j2
     dest=/etc/php5/fpm/pool.d/www.conf
   notify:
     - restart php-fpm

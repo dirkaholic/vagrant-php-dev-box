@@ -5,7 +5,7 @@
 
 - name: Copy across new parameters.yml
   template:
-    src=symfony_parameters.yml.j2
+    src=symfony/symfony_parameters.yml.j2
     dest=/vagrant/symfony-standard/app/config/parameters.yml
 
 - name: Install Symfony2 project dependencies

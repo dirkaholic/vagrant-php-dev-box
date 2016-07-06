@@ -4,14 +4,14 @@
 
 - name: Copy across new nginx config
   template:
-    src=nginx.conf.j2
+    src=nginx/nginx.conf.j2
     dest=/etc/nginx/nginx.conf
   notify:
     - restart nginx
 
 - name: Copy across new virtual host
   template:
-    src=symfony.conf.j2
+    src=nginx/symfony.conf.j2
     dest=/etc/nginx/sites-available/symfony.conf
   notify:
     - restart nginx
