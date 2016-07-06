@@ -1,0 +1,13 @@
+---
+- name: Install php
+  apt: name=php5 state=present
+
+- name: Install required php packages
+  apt: name={{ item }} state=present
+  with_items:
+    - php5-mysql
+    - php5-intl
+    - php5-cli
+
+- name: Install composer
+  shell: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
