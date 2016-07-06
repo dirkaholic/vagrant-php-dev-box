@@ -15,7 +15,7 @@ The installation process will create a folder symfony-standard inside
 the main directory of the repository. You can now start working inside 
 this folder directly on your host computer using your favourite IDE. 
 Changes done there will be reflected directly on the vagrant box as the 
-directory is mounted in the vagrant box under '''/vagrant'''. Also you 
+directory is mounted in the vagrant box under ```/vagrant```. Also you 
 can login into the box using ```vagrant ssh``` and have the full control 
 over processes etc.
 
