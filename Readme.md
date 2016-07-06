@@ -5,6 +5,7 @@ Set up a PHP development box super fast
 Installation
 ------------
 
+* Install [VirtualBox](https://www.virtualbox.org/)
 * Install vagrant using the installation instructions in the [Getting Started document](https://www.vagrantup.com/docs/getting-started/)
 * Clone this repository and cd into it
 * Run ```vagrant up``` in order to set up the box using the ansible provisioner
