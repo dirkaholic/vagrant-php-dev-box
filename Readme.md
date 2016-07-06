@@ -5,7 +5,7 @@ Set up a PHP development box super fast
 Installation
 ------------
 
-* Install vagrant using the installation instructions in the [Getting Started document](http://vagrantup.com/v1/docs/getting-started/index.html)
+* Install vagrant using the installation instructions in the [Getting Started document](https://www.vagrantup.com/docs/getting-started/)
 * Clone this repository and cd into it
 * Run ```vagrant up``` in order to set up the box using the ansible provisioner
 * You should now have your working Symfony2 Standard Edition under http://192.168.50.4/
