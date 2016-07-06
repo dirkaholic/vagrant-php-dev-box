@@ -1,0 +1,22 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    document_root: /vagrant/symfony-standard
+    www_user: vagrant
+    www_group: vagrant
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
+    - name: restart php-fpm
+      service: name=php5-fpm state=restarted
+  pre_tasks:
+    - name: update apt cache
+      apt: update_cache=yes
+  tasks:
+    - include: tasks/base.yml
+    - include: tasks/nginx.yml
+    - include: tasks/mysql.yml
+    - include: tasks/php.yml
+    - include: tasks/php-fpm.yml
+    - include: tasks/symfony.yml

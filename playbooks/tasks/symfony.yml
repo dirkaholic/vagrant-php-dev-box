@@ -1,0 +1,12 @@
+---
+- name: Clone Symfony2 standard edition
+  git: repo=https://github.com/symfony/symfony-standard.git
+       dest=/vagrant/symfony-standard
+
+- name: Copy across new parameters.yml
+  template:
+    src=symfony_parameters.yml.j2
+    dest=/vagrant/symfony-standard/app/config/parameters.yml
+
+- name: Install Symfony2 project dependencies
+  shell: cd /vagrant/symfony-standard && composer install

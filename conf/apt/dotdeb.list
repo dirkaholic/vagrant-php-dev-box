@@ -1,8 +1,0 @@
-deb http://packages.dotdeb.org squeeze all
-deb-src http://packages.dotdeb.org squeeze all
-
-# Uncomment if you need php5.4 - since `apt-get update` runs upon every boot
-# this might end up breaking your vagrant box
-#
-# deb http://packages.dotdeb.org squeeze-php54 all
-# deb-src http://packages.dotdeb.org squeeze-php54 all

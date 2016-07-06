@@ -19,8 +19,8 @@
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = vagrant
-group = vagrant
+user = {{ www_user }}
+group = {{ www_group }}
 
 ; The address on which to accept FastCGI requests.
 ; Valid syntaxes are:
@@ -30,20 +30,20 @@ group = vagrant
 ;                            specific port;
 ;   '/path/to/unix/socket' - to listen on a unix socket.
 ; Note: This value is mandatory.
-listen = 127.0.0.1:9000
+listen = /var/run/php5-symfony.sock
 
-; Set listen(2) backlog. A value of '-1' means unlimited.
-; Default Value: 128 (-1 on FreeBSD and OpenBSD)
-;listen.backlog = -1
+; Set listen(2) backlog.
+; Default Value: 65535 (-1 on FreeBSD and OpenBSD)
+;listen.backlog = 65535
 
 ; Set permissions for unix socket, if one is used. In Linux, read/write
 ; permissions must be set in order to allow connections from a web server. Many
 ; BSD-derived systems allow connections regardless of permissions.
 ; Default Values: user and group are set as the running user
-;                 mode is set to 0666
-;listen.owner = www-data
-;listen.group = www-data
-;listen.mode = 0666
+;                 mode is set to 0660
+listen.owner = {{ www_user }}
+listen.group = {{ www_group }}
+;listen.mode = 0660
 
 ; List of ipv4 addresses of FastCGI clients which are allowed to connect.
 ; Equivalent to the FCGI_WEB_SERVER_ADDRS environment variable in the original
@@ -52,6 +52,14 @@ listen = 127.0.0.1:9000
 ; accepted from any ip address.
 ; Default Value: any
 ;listen.allowed_clients = 127.0.0.1
+
+; Specify the nice(2) priority to apply to the pool processes (only if set)
+; The value can vary from -19 (highest priority) to 20 (lower priority)
+; Note: - It will only work if the FPM master process is launched as root
+;       - The pool processes will inherit the master process priority
+;         unless it specified otherwise
+; Default Value: no set
+; priority = -19
 
 ; Choose how the process manager will control the number of child processes.
 ; Possible Values:
@@ -88,22 +96,22 @@ pm = dynamic
 ; forget to tweak pm.* to fit your needs.
 ; Note: Used when pm is set to 'static', 'dynamic' or 'ondemand'
 ; Note: This value is mandatory.
-pm.max_children = 10
+pm.max_children = 5
 
 ; The number of child processes created on startup.
 ; Note: Used only when pm is set to 'dynamic'
 ; Default Value: min_spare_servers + (max_spare_servers - min_spare_servers) / 2
-pm.start_servers = 4
+pm.start_servers = 2
 
 ; The desired minimum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.min_spare_servers = 2
+pm.min_spare_servers = 1
 
 ; The desired maximum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.max_spare_servers = 6
+pm.max_spare_servers = 3
 
 ; The number of seconds after which an idle process will be killed.
 ; Note: Used only when pm is set to 'ondemand'
@@ -267,7 +275,7 @@ pm.max_spare_servers = 6
 ;      - %{megabytes}M
 ;      - %{mega}M
 ;  %n: pool name
-;  %o: ouput header
+;  %o: output header
 ;      it must be associated with embraces to specify the name of the header:
 ;      - %{Content-Type}o
 ;      - %{X-Powered-By}o
@@ -289,7 +297,7 @@ pm.max_spare_servers = 6
 ;  %u: remote user
 ;
 ; Default: "%R - %u %t \"%m %r\" %s"
-;access.format = %R - %u %t "%m %r%Q%q" %s %f %{mili}d %{kilo}M %C%%
+;access.format = "%R - %u %t \"%m %r%Q%q\" %s %f %{mili}d %{kilo}M %C%%"
 
 ; The log file for slow requests
 ; Default Value: not set
