@@ -18,5 +18,6 @@
     - include: tasks/nginx.yml
     - include: tasks/mysql.yml
     - include: tasks/php.yml
+    - include: tasks/php-devtools.yml
     - include: tasks/php-fpm.yml
     - include: tasks/symfony.yml
