@@ -32,3 +32,4 @@ Installed components
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
+* [PHPUnit](https://phpunit.de/)
