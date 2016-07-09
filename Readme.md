@@ -29,7 +29,9 @@ Installed components
 
 * [Nginx](http://nginx.org)
 * [MySQL](http://dev.mysql.com/downloads/mysql/)
+* [PHP 5.6](http://www.php.net/)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
+* [Composer](https://getcomposer.org/)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [PHPUnit](https://phpunit.de/)
