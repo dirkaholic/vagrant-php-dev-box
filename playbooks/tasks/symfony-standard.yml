@@ -1,0 +1,45 @@
+---
+- name: Create MySQL database for symfony
+  mysql_db: name=symfony state=present
+
+- name: Create MySQL user for symfony
+  mysql_user: name=symfony password=symfony priv=*.*:ALL state=present
+
+- name: Clone Symfony2 standard edition
+  git: repo=https://github.com/symfony/symfony-standard.git
+       dest=/vagrant/symfony-standard
+       update=no
+
+- name: Copy across new parameters.yml
+  template:
+    src=symfony/symfony_parameters.yml.j2
+    dest=/vagrant/symfony-standard/app/config/parameters.yml
+
+- stat: path=/vagrant/symfony-standard/vendor
+  register: p
+
+- name: Install Symfony2 project dependencies
+  shell: cd /vagrant/symfony-standard && composer install
+  when: p.stat.isdir is not defined
+
+- name: Copy across new php-fpm pool config for symfony
+  template:
+    src=php-fpm/symfony.conf.j2
+    dest=/etc/php5/fpm/pool.d/symfony.conf
+  notify:
+    - restart php-fpm
+
+- name: Copy across new virtual host for symfony
+  template:
+    src=nginx/symfony.conf.j2
+    dest=/etc/nginx/sites-available/symfony.conf
+  notify:
+    - restart nginx
+
+- name: Enable new vagrant virtual host for symfony
+  file:
+    src=/etc/nginx/sites-available/symfony.conf
+    dest=/etc/nginx/sites-enabled/symfony.conf
+    state=link
+  notify:
+    - restart nginx

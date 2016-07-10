@@ -3,3 +3,4 @@
   with_items:
     - curl
     - git
+    - python-mysqldb
