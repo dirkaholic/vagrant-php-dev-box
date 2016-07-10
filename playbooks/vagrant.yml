@@ -2,7 +2,7 @@
 - hosts: all
   sudo: true
   vars:
-    document_root: /vagrant/symfony-standard
+    document_root: /vagrant
     www_user: vagrant
     www_group: vagrant
   handlers:
@@ -20,4 +20,5 @@
     - include: tasks/php.yml
     - include: tasks/php-devtools.yml
     - include: tasks/php-fpm.yml
-    - include: tasks/symfony.yml
+    - include: tasks/symfony-standard.yml
+    - include: tasks/laravel-quickstart.yml

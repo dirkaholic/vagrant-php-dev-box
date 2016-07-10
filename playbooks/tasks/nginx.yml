@@ -9,24 +9,9 @@
   notify:
     - restart nginx
 
-- name: Copy across new virtual host
-  template:
-    src=nginx/symfony.conf.j2
-    dest=/etc/nginx/sites-available/symfony.conf
-  notify:
-    - restart nginx
-
 - name: Remove default virtual host
   file:
     path=/etc/nginx/sites-enabled/default
     state=absent
-  notify:
-    - restart nginx
-
-- name: Enable new vagrant virtual host
-  file:
-    src=/etc/nginx/sites-available/symfony.conf
-    dest=/etc/nginx/sites-enabled/symfony.conf
-    state=link
   notify:
     - restart nginx
