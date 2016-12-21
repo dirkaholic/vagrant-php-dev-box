@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  sudo: true
+  become: true
   vars:
     document_root: /vagrant
     www_user: vagrant
@@ -9,7 +9,7 @@
     - name: restart nginx
       service: name=nginx state=restarted
     - name: restart php-fpm
-      service: name=php5-fpm state=restarted
+      service: name=php5.6-fpm state=restarted
   pre_tasks:
     - name: update apt cache
       apt: update_cache=yes
