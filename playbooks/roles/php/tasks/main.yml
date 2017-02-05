@@ -15,9 +15,14 @@
     - php5.6-intl
     - php5.6-cli
     - php5.6-mcrypt
+    - php5.6-mbstring
+    - php5.6-dom
 
 - name: Enable the MCrypt extension
   shell: phpenmod mcrypt
 
 - name: Install composer
   shell: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+
+- name: Configure composer cache directory to avoid using slow NFS
+  shell: composer config --global cache-dir /dev/shm/composer/cache

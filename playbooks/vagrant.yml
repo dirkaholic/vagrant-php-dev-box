@@ -5,20 +5,15 @@
     document_root: /vagrant
     www_user: vagrant
     www_group: vagrant
-  handlers:
-    - name: restart nginx
-      service: name=nginx state=restarted
-    - name: restart php-fpm
-      service: name=php5.6-fpm state=restarted
   pre_tasks:
     - name: update apt cache
-      apt: update_cache=yes
-  tasks:
-    - include: tasks/base.yml
-    - include: tasks/nginx.yml
-    - include: tasks/mysql.yml
-    - include: tasks/php.yml
-    - include: tasks/php-devtools.yml
-    - include: tasks/php-fpm.yml
-    - include: tasks/symfony-standard.yml
-    - include: tasks/laravel-quickstart.yml
+      apt: update_cache=yes cache_valid_time=3600
+  roles:
+    - base
+    - nginx
+    - mysql
+    - php
+    - php-devtools
+    - php-fpm
+    - symfony-standard
+    - laravel-quickstart
