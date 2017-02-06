@@ -9,29 +9,31 @@
   git: repo=https://github.com/symfony/symfony-standard.git
        dest=/vagrant/symfony-standard
        update=no
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Copy across new parameters.yml
   template:
-    src=symfony/symfony_parameters.yml.j2
+    src=parameters.yml.j2
     dest=/vagrant/symfony-standard/app/config/parameters.yml
-
-- stat: path=/vagrant/symfony-standard/vendor
-  register: p
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Install Symfony2 project dependencies
-  shell: cd /vagrant/symfony-standard && composer install
-  when: p.stat.isdir is not defined
+  shell: cd /vagrant/symfony-standard && COMPOSER_PROCESS_TIMEOUT={{composer_process_timeout}} composer install
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Copy across new php-fpm pool config for symfony
   template:
-    src=php-fpm/symfony.conf.j2
+    src=php-fpm.conf.j2
     dest=/etc/php/5.6/fpm/pool.d/symfony.conf
   notify:
     - restart php-fpm
 
 - name: Copy across new virtual host for symfony
   template:
-    src=nginx/symfony.conf.j2
+    src=nginx.conf.j2
     dest=/etc/nginx/sites-available/symfony.conf
   notify:
     - restart nginx

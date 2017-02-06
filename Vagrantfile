@@ -10,7 +10,8 @@ Vagrant.configure(2) do |config|
   # See https://github.com/mitchellh/vagrant/issues/5005
   config.ssh.insert_key = false
 
-  config.vm.provision "ansible" do |ansible|
+  # Run Ansible from the Vagrant VM
+  config.vm.provision "ansible_local" do |ansible|
     ansible.verbose = "vv"
     ansible.playbook = "playbooks/vagrant.yml"
   end

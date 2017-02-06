@@ -8,7 +8,7 @@ Installation
 * Install [VirtualBox](https://www.virtualbox.org/)
 * Install vagrant using the installation instructions in the [Getting Started document](https://www.vagrantup.com/docs/getting-started/)
 * Clone this repository and cd into it
-* Run ```vagrant up``` in order to set up the box using the ansible provisioner
+* Run ```vagrant up``` in order to set up the box using the ```ansible_local``` provisioner
 * You should now have your working 
     * Symfony2 Standard Edition under http://192.168.50.4:8081/
     * Laravel Quickstart example app under http://192.168.50.4:8082/
@@ -43,9 +43,12 @@ Changes
 -------
 
 ### unreleased
+
+* Transfer ansible playbooks to roles #31
+
 ### v1.3.0
 
-* Switch provisioner to ansible
+* Switch provisioner to ansible #18
 
 ### v1.0.0
 

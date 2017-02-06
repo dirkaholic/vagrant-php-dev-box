@@ -9,35 +9,41 @@
   git: repo=https://github.com/laravel/quickstart-basic
        dest=/vagrant/laravel-quickstart
        update=no
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Copy across new .env file
   template:
-    src=laravel/.env.j2
+    src=.env.j2
     dest=/vagrant/laravel-quickstart/.env
-
-- stat: path=/vagrant/laravel-quickstart/vendor
-  register: p
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Install Laravel project dependencies
-  shell: cd /vagrant/laravel-quickstart && composer install
-  when: p.stat.isdir is not defined
+  shell: cd /vagrant/laravel-quickstart && COMPOSER_PROCESS_TIMEOUT={{composer_process_timeout}} composer install
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Generate laravel key
   shell: cd /vagrant/laravel-quickstart && php artisan key:generate
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Execute migrations for the quickstart example
   shell: cd /vagrant/laravel-quickstart && php artisan migrate
+  become: true
+  become_user: "{{ www_user }}"
 
 - name: Copy across new php-fpm pool config for laravel
   template:
-    src=php-fpm/laravel.conf.j2
+    src=php-fpm.conf.j2
     dest=/etc/php/5.6/fpm/pool.d/laravel.conf
   notify:
     - restart php-fpm
 
 - name: Copy across new virtual host for laravel
   template:
-    src=nginx/laravel.conf.j2
+    src=nginx.conf.j2
     dest=/etc/nginx/sites-available/laravel.conf
   notify:
     - restart nginx
