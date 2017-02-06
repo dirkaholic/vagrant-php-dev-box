@@ -43,6 +43,7 @@ Changes
 -------
 
 ### unreleased
+### v1.3.0
 
 * Switch provisioner to ansible
 
