@@ -38,3 +38,14 @@ Installed components
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [Laravel](https://laravel.com/)
 * [PHPUnit](https://phpunit.de/)
+
+Changes
+-------
+
+### unreleased
+
+* Switch provisioner to ansible
+
+### v1.0.0
+
+* Provision development environment using puppet
