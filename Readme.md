@@ -43,6 +43,7 @@ Changes
 -------
 
 ### unreleased
+### v1.4.0
 
 * Transfer ansible playbooks to roles #31
 
