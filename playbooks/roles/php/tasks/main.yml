@@ -1,22 +1,28 @@
 ---
-- name: Add apt repository for PHP 5.6
+- name: Add apt key for PHP ppa
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 14AA40EC0831756756D7F66C4F4EA0AAE5267A6C
+    state: present
+
+- name: Add apt repository for PHP
   apt_repository: repo='ppa:ondrej/php/ubuntu'
 
 - name: Install python-software-properties
   apt: name=python-software-properties state=present
 
-- name: Install php 5.6
-  apt: name=php5.6 state=present
+- name: Install PHP
+  apt: name=php{{ php_version }} state=present
 
 - name: Install required php packages
   apt: name={{ item }} state=present
   with_items:
-    - php5.6-mysql
-    - php5.6-intl
-    - php5.6-cli
-    - php5.6-mcrypt
-    - php5.6-mbstring
-    - php5.6-dom
+    - php{{ php_version }}-mysql
+    - php{{ php_version }}-intl
+    - php{{ php_version }}-cli
+    - php{{ php_version }}-mcrypt
+    - php{{ php_version }}-mbstring
+    - php{{ php_version }}-dom
 
 - name: Enable the MCrypt extension
   shell: phpenmod mcrypt
