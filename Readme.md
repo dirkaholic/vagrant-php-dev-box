@@ -31,7 +31,7 @@ Installed components
 
 * [Nginx](http://nginx.org)
 * [MySQL](http://dev.mysql.com/downloads/mysql/)
-* [PHP 5.6](http://www.php.net/)
+* [PHP 7.0](http://www.php.net/)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
 * [Composer](https://getcomposer.org/)
@@ -39,10 +39,16 @@ Installed components
 * [Laravel](https://laravel.com/)
 * [PHPUnit](https://phpunit.de/)
 
+If you don't like/need some of the components just remove them from the roles section in playbook/vagrant.yml.
+
 Changes
 -------
 
 ### unreleased
+
+* Introduce php_version variable, set PHP default version to 7.0 [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
+* Upgrade Ubuntu box to 16.04 (latest LTS version) [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
+
 ### v1.4.0
 
 * Transfer ansible playbooks to roles [#31](https://github.com/dirkaholic/vagrant-php-dev-box/pull/31)

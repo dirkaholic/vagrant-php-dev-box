@@ -27,7 +27,7 @@
 - name: Copy across new php-fpm pool config for symfony
   template:
     src=php-fpm.conf.j2
-    dest=/etc/php/5.6/fpm/pool.d/symfony.conf
+    dest=/etc/php/{{ php_version }}/fpm/pool.d/symfony.conf
   notify:
     - restart php-fpm
 
