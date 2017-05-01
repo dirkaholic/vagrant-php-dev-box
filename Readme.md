@@ -31,6 +31,7 @@ Installed components
 
 * [Nginx](http://nginx.org)
 * [MySQL](http://dev.mysql.com/downloads/mysql/)
+* [PostgreSQL](https://www.postgresql.org/)
 * [PHP 7.0](http://www.php.net/)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
@@ -38,7 +39,6 @@ Installed components
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [Laravel](https://laravel.com/)
 * [PHPUnit](https://phpunit.de/)
-* [PostgreSQL](https://www.postgresql.org/)
 
 If you don't like/need some of the components just remove them from the roles section in playbook/vagrant.yml.
 
