@@ -38,6 +38,7 @@ Installed components
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [Laravel](https://laravel.com/)
 * [PHPUnit](https://phpunit.de/)
+* [PostgreSQL](https://www.postgresql.org/)
 
 If you don't like/need some of the components just remove them from the roles section in playbook/vagrant.yml.
 
@@ -48,6 +49,7 @@ Changes
 
 * Introduce php_version variable, set PHP default version to 7.0 [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
 * Upgrade Ubuntu box to 16.04 (latest LTS version) [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
+* Added PostgreSQL database for Symfony2
 
 ### v1.4.0
 

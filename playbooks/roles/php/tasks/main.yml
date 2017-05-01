@@ -23,6 +23,7 @@
     - php{{ php_version }}-mcrypt
     - php{{ php_version }}-mbstring
     - php{{ php_version }}-dom
+    - php{{ php_version }}-pgsql
 
 - name: Enable the MCrypt extension
   shell: phpenmod mcrypt

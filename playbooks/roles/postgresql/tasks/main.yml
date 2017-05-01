@@ -1,0 +1,32 @@
+- name: Add PostgreSQL repository
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' state=present
+  sudo: yes
+
+- name: Add PostgreSQL repository key
+  apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+  sudo: yes
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install PostgreSQL server
+  shell: >
+    LANG={{ locale }} LC_COLLATE={{ locale }} LC_CTYPE={{ locale }}
+    LC_MESSAGES={{ locale }} LC_MONETARY={{ locale }}
+    LC_NUMERIC={{ locale }} LC_TIME={{ locale }}
+    LC_ALL={{ locale }}
+    apt-get install -y postgresql-9.3
+  sudo: yes
+
+- name: Install PostgreSQL development library
+  apt: pkg=libpq-dev state=present
+  sudo: yes
+
+- name: Install Python Psycopg2 library
+  apt: pkg=python-psycopg2 state=present
+  sudo: yes
+
+- name: Restart postgresql server
+  service: name=postgresql state=started enabled=yes
+  sudo: yes
