@@ -45,6 +45,7 @@ Changes
 -------
 
 ### unreleased
+### v1.4.1
 
 * Introduce php_version variable, set PHP default version to 7.0 [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
 * Upgrade Ubuntu box to 16.04 (latest LTS version) [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
