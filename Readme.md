@@ -31,6 +31,7 @@ Installed components
 
 * [Nginx](http://nginx.org)
 * [MySQL](http://dev.mysql.com/downloads/mysql/)
+* [PostgreSQL](https://www.postgresql.org/)
 * [PHP 7.0](http://www.php.net/)
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
@@ -49,6 +50,7 @@ Changes
 
 * Introduce php_version variable, set PHP default version to 7.0 [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
 * Upgrade Ubuntu box to 16.04 (latest LTS version) [#33](https://github.com/dirkaholic/vagrant-php-dev-box/pull/33)
+* Added PostgreSQL database for Symfony2
 
 ### v1.4.0
 
