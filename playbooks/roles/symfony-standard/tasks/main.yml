@@ -45,3 +45,9 @@
     state=link
   notify:
     - restart nginx
+
+- name:  Change to Symfony development enviroment for reflect the changes directly on the vagrant box
+  replace:
+    dest: /vagrant/symfony-standard/web/app.php
+    regexp: \$kernel = new.*$
+    replace: $kernel = new AppKernel('dev', true);
