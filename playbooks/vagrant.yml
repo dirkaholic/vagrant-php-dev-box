@@ -12,6 +12,7 @@
     - base
     - nginx
     - mysql
+    - postgresql
     - php
     - php-devtools
     - php-fpm
