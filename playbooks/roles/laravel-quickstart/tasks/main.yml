@@ -5,6 +5,39 @@
 - name: Create MySQL user for laravel
   mysql_user: name=laravel password=laravel priv=*.*:ALL state=present
 
+- name: Create PostgreSQL database for laravel
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name=laravel state=present
+
+- name: init database user
+  postgresql_user: name=laravel password=laravel db=symfony priv=ALL
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql check schema laravel
+  command: psql -t -d symfony -c "SELECT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'laravel');"
+  register: check_schema
+  changed_when: "'f' in '{{ check_schema.stdout }}'"
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql schema laravel
+  command: psql -d laravel -c "CREATE SCHEMA laravel; ALTER USER laravel SET search_path TO laravel;"
+  when: check_schema.changed
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql grant access to schema laravel to all
+  postgresql_privs: database=laravel type=schema objs=laravel roles=PUBLIC privs=USAGE
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql grant access to tables of schema laravel
+  postgresql_privs: database=laravel schema=laravel type=table objs=ALL_IN_SCHEMA roles=PUBLIC privs=SELECT
+  sudo: yes
+  sudo_user: postgres
+
 - name: Clone Laravel quickstart application
   git: repo=https://github.com/laravel/quickstart-basic
        dest=/vagrant/laravel-quickstart

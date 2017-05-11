@@ -18,6 +18,7 @@
   apt: name={{ item }} state=present
   with_items:
     - php{{ php_version }}-mysql
+    - php{{ php_version }}-pgsql
     - php{{ php_version }}-intl
     - php{{ php_version }}-cli
     - php{{ php_version }}-mcrypt

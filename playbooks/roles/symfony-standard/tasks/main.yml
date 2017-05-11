@@ -5,6 +5,39 @@
 - name: Create MySQL user for symfony
   mysql_user: name=symfony password=symfony priv=*.*:ALL state=present
 
+- name: Create PostgreSQL database for symfony
+  sudo: yes
+  sudo_user: postgres
+  postgresql_db: name=symfony state=present
+
+- name: init database user
+  postgresql_user: name=symfony password=symfony db=symfony priv=ALL
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql check schema symfony
+  command: psql -t -d symfony -c "SELECT EXISTS(SELECT 1 FROM pg_namespace WHERE nspname = 'symfony');"
+  register: check_schema
+  changed_when: "'f' in '{{ check_schema.stdout }}'"
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql schema symfony
+  command: psql -d symfony -c "CREATE SCHEMA symfony; ALTER USER symfony SET search_path TO symfony;"
+  when: check_schema.changed
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql grant access to schema symfony to all
+  postgresql_privs: database=symfony type=schema objs=symfony roles=PUBLIC privs=USAGE
+  sudo: yes
+  sudo_user: postgres
+
+- name: psql grant access to tables of schema symfony
+  postgresql_privs: database=symfony schema=symfony type=table objs=ALL_IN_SCHEMA roles=PUBLIC privs=SELECT
+  sudo: yes
+  sudo_user: postgres
+
 - name: Clone Symfony2 standard edition
   git: repo=https://github.com/symfony/symfony-standard.git
        dest=/vagrant/symfony-standard
