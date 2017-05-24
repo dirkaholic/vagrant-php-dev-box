@@ -12,6 +12,7 @@ Installation
 * You should now have your working 
     * Symfony2 Standard Edition under http://192.168.50.4:8081/
     * Laravel Quickstart example app under http://192.168.50.4:8082/
+    * CakePHP base installation under http://192.168.50.4:8083/
 
 The installation process will create a folder symfony-standard inside 
 the main directory of the repository. You can now start working inside 
@@ -35,6 +36,7 @@ Installed components
 * [php-fpm](http://php-fpm.org)
 * [git](http://git-scm.com/)
 * [Composer](https://getcomposer.org/)
+* [CakePHP 3](https://cakephp.org)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [Laravel](https://laravel.com/)
 * [PHPUnit](https://phpunit.de/)
