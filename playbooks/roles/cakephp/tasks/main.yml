@@ -15,10 +15,27 @@
     path=/vagrant/cakephp/config/app.php
     state=absent
 
-- name: Copy across new parameters.yml
+- name: Copy across new CakePHP app.php
   template:
     src=app.php.j2
     dest=/vagrant/cakephp/config/app.php
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Remove default CakePHP composer.json
+  file:
+    path=/vagrant/cakephp/composer.json
+    state=absent
+
+- name: Copy across new composer.json
+  template:
+    src=composer.json.j2
+    dest=/vagrant/cakephp/composer.json
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Composer Update (to install Foundation 6)
+  shell: cd /vagrant/cakephp && composer update
   become: true
   become_user: "{{ www_user }}"
 
@@ -43,3 +60,40 @@
     state=link
   notify:
     - restart nginx
+
+- name: Copy NPM package.json
+  template:
+    src=package.json.j2
+    dest=/vagrant/cakephp/package.json
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: NPM Install
+  shell: cd /vagrant/cakephp && npm --no-bin-links install
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Copy gruntfile.js
+  template:
+    src=gruntfile.js.j2
+    dest=/vagrant/cakephp/gruntfile.js
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Make sass directories
+  shell: mkdir /vagrant/cakephp/webroot/scss  && touch /vagrant/cakephp/webroot/scss/custom.sass
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Copy default layout with new sass
+  template:
+    src=default.ctp.j2
+    dest=/vagrant/cakephp/src/Template/Layout/default.ctp
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: setup GRUNT on boot
+  shell: echo "sudo -u vagrant cd /vagrant/cakephp && grunt livereload" >> /etc/rc.local
+
+
+  
