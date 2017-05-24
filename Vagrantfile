@@ -16,7 +16,7 @@ Vagrant.configure(2) do |config|
 
   # Run Ansible from the Vagrant VM
   config.vm.provision "ansible_local" do |ansible|
-    ansible.verbose = "vvv"
+    ansible.verbose = "vv"
     ansible.playbook = "playbooks/vagrant.yml"
     ansible.install_mode = "pip"
   	ansible.version = "2.2.3.0"
