@@ -1,6 +1,6 @@
 .DS_Store
 .vagrant
 .idea/
-cakephp/
-symfony-standard/
-laravel-quickstart/
+/cakephp/
+/symfony-standard/
+/laravel-quickstart/
