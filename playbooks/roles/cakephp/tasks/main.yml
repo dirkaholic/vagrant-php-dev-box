@@ -87,7 +87,7 @@
   become_user: "{{ www_user }}"
 
 - name: Make sass directories
-  shell: mkdir /vagrant/cakephp/webroot/scss  && touch /vagrant/cakephp/webroot/scss/custom.sass /vagrant/cakephp/webroot/js/custom.js
+  shell: mkdir /vagrant/cakephp/webroot/scss
   become: true
   become_user: "{{ www_user }}"
 
@@ -105,8 +105,23 @@
   become: true
   become_user: "{{ www_user }}"
 
+  - name: Copy js with new custom js
+  template:
+    src=custom.js.j2
+    dest=/vagrant/cakephp/webroot/js/custom.js
+  become: true
+  become_user: "{{ www_user }}"
+
 - name: setup GRUNT on boot
-  shell: echo "sudo -u vagrant cd /vagrant/cakephp && grunt livereload" >> /etc/rc.local
+  shell: echo "sudo -u vagrant cd /vagrant/cakephp && grunt watch" >> /etc/rc.local
+
+- name: start GRUNT watch
+  shell: cp -fr /vagrant/cakephp/node_modules/foundation-icons /vagrant/cakephp/webroot/font/foundation-icons
+  become: true
+  become_user: "{{ www_user }}"  
 
 
-  
+- name: start GRUNT watch
+  shell: cd /vagrant/cakephp && grunt watch
+  become: true
+  become_user: "{{ www_user }}"  
