@@ -69,9 +69,15 @@
   become_user: "{{ www_user }}"
 
 - name: NPM Install
+  shell: cd /vagrant/cakephp && sudo npm -g install 
+
+- name: Make sass directories
   shell: cd /vagrant/cakephp && npm --no-bin-links install
   become: true
   become_user: "{{ www_user }}"
+
+- name: Install GEM
+  shell: cd /vagrant/cakephp && sudo gem install sass 
 
 - name: Copy gruntfile.js
   template:
@@ -81,7 +87,7 @@
   become_user: "{{ www_user }}"
 
 - name: Make sass directories
-  shell: mkdir /vagrant/cakephp/webroot/scss  && touch /vagrant/cakephp/webroot/scss/custom.sass
+  shell: mkdir /vagrant/cakephp/webroot/scss  && touch /vagrant/cakephp/webroot/scss/custom.sass /vagrant/cakephp/webroot/js/custom.js
   become: true
   become_user: "{{ www_user }}"
 

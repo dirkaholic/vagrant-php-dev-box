@@ -1,3 +1,5 @@
+grunt.loadNpmTasks('grunt-contrib-watch');
+
 grunt.initConfig({
   sass: {
     dev: {
@@ -11,6 +13,21 @@ grunt.initConfig({
       dest: 'webroot/css/main.css',
     },
   },
+  uglify: {
+    options: {
+      mangle: false
+    },
+    my_target: {
+      files: {
+        'webroot/js/cakephp.min.js': 
+        	[
+        	'webroot/js/custom.js',
+        	'cakephp/vendor/zurb/foundation'
+
+        	]
+      }
+    }
+  }
   watch: {
     sass: {
       // We watch and compile sass files as normal but don't live reload here
