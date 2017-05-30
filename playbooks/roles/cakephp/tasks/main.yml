@@ -98,6 +98,13 @@
   become: true
   become_user: "{{ www_user }}"
 
+- name: Copy default layout with new sass
+  template:
+    src=custom.scss.j2
+    dest=/vagrant/cakephp/webroot/scss/custom.scss
+  become: true
+  become_user: "{{ www_user }}"
+
 - name: setup GRUNT on boot
   shell: echo "sudo -u vagrant cd /vagrant/cakephp && grunt livereload" >> /etc/rc.local
 
