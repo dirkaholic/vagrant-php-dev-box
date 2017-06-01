@@ -1,6 +1,6 @@
 server {
-    listen 8081 default_server;
-    listen [::]:8081 default_server ipv6only=on;
+    listen 8081 default_server ssl;
+    listen [::]:8081 default_server ssl ipv6only=on;
 
     server_name 192.168.50.4;
     root {{ document_root }}/symfony-standard/web;
@@ -23,4 +23,7 @@ server {
 
     error_log /var/log/nginx/symfony_error.log;
     access_log /var/log/nginx/symfony_access.log;
+
+    ssl_certificate     /etc/ssl/certs/ssl.crt;
+    ssl_certificate_key /etc/ssl/private/ssl.key;
 }

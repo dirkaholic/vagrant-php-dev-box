@@ -1,6 +1,6 @@
 server {
-    listen 8082 default_server;
-    listen [::]:8082 default_server ipv6only=on;
+    listen 8082 default_server ssl;
+    listen [::]:8082 default_server ssl ipv6only=on;
 
     server_name 192.168.50.4;
 
@@ -33,4 +33,7 @@ server {
 
     error_log /var/log/nginx/laravel_error.log;
     access_log /var/log/nginx/laravel_access.log;
+
+    ssl_certificate     /etc/ssl/certs/ssl.crt;
+    ssl_certificate_key /etc/ssl/private/ssl.key;
 }
