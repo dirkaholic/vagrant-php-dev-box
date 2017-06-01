@@ -36,4 +36,6 @@ server {
 
     ssl_certificate     /etc/ssl/certs/ssl.crt;
     ssl_certificate_key /etc/ssl/private/ssl.key;
+
+    error_page 497 https://$host:8082$request_uri;
 }
