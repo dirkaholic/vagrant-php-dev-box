@@ -115,7 +115,7 @@
   become_user: "{{ www_user }}"
 
 - name: setup GRUNT on boot
-  shell: echo "sudo -u vagrant cd /vagrant/cakephp && grunt watch" >> /etc/rc.local
+  shell: echo "#!/bin/bash\ncd /vagrant/cakephp && sudo -u vagrant grunt watch" >> /etc/rc.local && sudo systemctl enable rc-local.service
 
 - name: Copy Foundation Icons
   shell: cp -fr /vagrant/cakephp/node_modules/foundation-icons /vagrant/cakephp/webroot/font/foundation-icons

@@ -1,6 +1,7 @@
 Set up a PHP development box super fast
 =======================================
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/dirkaholic/vagrant-php-dev-box?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/dirkaholic/vagrant-php-dev-box?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Installation
 ------------
@@ -14,9 +15,9 @@ Installation
     * Laravel Quickstart example app under http://192.168.50.4:8082/
     * CakePHP base installation under https://192.168.50.4:8083/
 
-The installation process will create a folder symfony-standard inside 
+The installation process will create folders symfony-standard, laravel-quickstart, cakephp inside 
 the main directory of the repository. You can now start working inside 
-this folder directly on your host computer using your favourite IDE. 
+these folders directly on your host computer using your favourite IDE. 
 Changes done there will be reflected directly on the vagrant box as the 
 directory is mounted in the vagrant box under ```/vagrant```. Also you 
 can login into the box using ```vagrant ssh``` and have the full control 
@@ -26,6 +27,8 @@ As the provisioning using the ansible provisioner is very fast you can
 repeat the whole procedure at any time. In order to start fresh just run
 ```vagrant destroy``` and ```vagrant up```. This will undo all you manual 
 changes done on the vagrant box and provide you with a clean setup.
+
+NOTE: You must delete or move the development folders prior to ```vagrant up``` after a destroy. If these folders exist, the process will fail. 
 
 Installed components
 --------------------
@@ -39,6 +42,7 @@ Installed components
 * [CakePHP 3](https://cakephp.org)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [Laravel](https://laravel.com/)
+* [NodeJS](https://nodejs.org)
 * [PHPUnit](https://phpunit.de/)
 
 If you don't like/need some of the components just remove them from the roles section in playbook/vagrant.yml.
