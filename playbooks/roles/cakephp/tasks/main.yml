@@ -114,8 +114,13 @@
   become: true
   become_user: "{{ www_user }}"
 
+- name: Copy over rc.local file
+  template:
+    src=rc.local.j2
+    dest=/etc/rc.local
+
 - name: setup GRUNT on boot
-  shell: echo "#!/bin/bash\ncd /vagrant/cakephp && sudo -u vagrant grunt watch" >> /etc/rc.local && sudo systemctl enable rc-local.service
+  shell: sudo systemctl enable rc-local.service
 
 - name: Copy Foundation Icons
   shell: cp -fr /vagrant/cakephp/node_modules/foundation-icons /vagrant/cakephp/webroot/font/foundation-icons
