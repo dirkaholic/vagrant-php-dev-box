@@ -11,8 +11,8 @@ Installation
 * Clone this repository and cd into it
 * Run ```vagrant up``` in order to set up the box using the ```ansible_local``` provisioner
 * You should now have your working 
-    * Symfony2 Standard Edition under http://192.168.50.4:8081/
-    * Laravel Quickstart example app under http://192.168.50.4:8082/
+    * Symfony2 Standard Edition under https://192.168.50.4:8081/
+    * Laravel Quickstart example app under https://192.168.50.4:8082/
     * CakePHP base installation under https://192.168.50.4:8083/
 
 The installation process will create folders symfony-standard, laravel-quickstart, cakephp inside 
