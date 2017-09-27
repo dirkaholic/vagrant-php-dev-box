@@ -78,6 +78,14 @@
   become: true
   become_user: "{{ www_user }}"
 
+- name: Install required GEM packages
+  apt: name={{ item }} state=present
+  with_items:
+    - ruby-sass
+
+- name: Install GEM
+  shell: cd /vagrant/cakephp && sudo apt-get -y install ruby-sass
+
 - name: Install GEM
   shell: cd /vagrant/cakephp && sudo gem install sass 
 
