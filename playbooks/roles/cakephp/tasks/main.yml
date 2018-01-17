@@ -9,6 +9,8 @@
   shell: cd /vagrant && composer create-project --prefer-dist cakephp/app cakephp
   become: true
   become_user: "{{ www_user }}"
+  ignore_errors: yes
+
 
 - name: Remove default CakePHP app.php
   file:
@@ -100,6 +102,7 @@
   shell: mkdir /vagrant/cakephp/webroot/scss
   become: true
   become_user: "{{ www_user }}"
+  ignore_errors: yes
 
 - name: Copy default layout with new sass
   template:
@@ -107,6 +110,7 @@
     dest=/vagrant/cakephp/src/Template/Layout/default.ctp
   become: true
   become_user: "{{ www_user }}"
+  ignore_errors: yes
 
 - name: Copy default layout with new sass
   template:
@@ -114,6 +118,7 @@
     dest=/vagrant/cakephp/webroot/scss/main.scss
   become: true
   become_user: "{{ www_user }}"
+  ignore_errors: yes
 
 - name: Copy js with new custom js
   template:
@@ -121,11 +126,13 @@
     dest=/vagrant/cakephp/webroot/js/custom.js
   become: true
   become_user: "{{ www_user }}"
+  ignore_errors: yes
 
 - name: Copy over rc.local file
   template:
     src=rc.local.j2
     dest=/etc/rc.local
+  ignore_errors: yes
 
 - name: setup GRUNT on boot
   shell: sudo systemctl enable rc-local.service
@@ -134,8 +141,5 @@
   shell: cp -fr /vagrant/cakephp/node_modules/foundation-icons /vagrant/cakephp/webroot/font/foundation-icons
   become: true
   become_user: "{{ www_user }}"  
+  ignore_errors: yes
 
-- name: start GRUNT watch
-  shell: cd /vagrant/cakephp && grunt watch &
-  become: true
-  become_user: "{{ www_user }}"  
