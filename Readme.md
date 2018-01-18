@@ -14,6 +14,7 @@ Installation
     * Symfony2 Standard Edition under https://192.168.50.4:8081/
     * Laravel Quickstart example app under https://192.168.50.4:8082/
     * CakePHP base installation under https://192.168.50.4:8083/
+    * Wordpress base installation under https://192.168.50.4:8084/
 
 The installation process will create folders symfony-standard, laravel-quickstart, cakephp inside 
 the main directory of the repository. You can now start working inside 

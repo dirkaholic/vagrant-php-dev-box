@@ -1,0 +1,41 @@
+server {
+    listen 8084 default_server ssl;
+    listen [::]:8084 default_server ssl ipv6only=on;
+
+    server_name 192.168.50.4;
+
+    root {{ document_root }}/wordpress;
+    index index.php index.html index.htm;
+    charset utf-8;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location = /robots.txt  { access_log off; log_not_found off; }
+
+    sendfile off;
+    client_max_body_size 100m;
+
+    location ~ \.php$ {
+        try_files $uri /index.php =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:/var/run/php7-wordpress.sock;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+
+    error_log /var/log/nginx/cakephp_error.log;
+    access_log /var/log/nginx/cakephp_access.log;
+
+    ssl_certificate     /etc/ssl/certs/ssl.crt;
+    ssl_certificate_key /etc/ssl/private/ssl.key;
+
+    error_page 497 https://$host:8084$request_uri;
+}

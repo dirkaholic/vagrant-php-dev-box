@@ -6,11 +6,13 @@
   mysql_user: name=cakephp password=cakephp priv=*.*:ALL state=present
 
 - name: Install CakePHP
-  shell: cd /vagrant && composer create-project --prefer-dist cakephp/app cakephp
+  command: composer create-project --prefer-dist cakephp/app cakephp
+  args: 
+      chdir: /vagrant 
+      creates: /vagrant/cakephp 
   become: true
   become_user: "{{ www_user }}"
   ignore_errors: yes
-
 
 - name: Remove default CakePHP app.php
   file:
