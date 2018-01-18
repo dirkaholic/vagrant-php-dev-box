@@ -16,7 +16,7 @@ Installation
     * CakePHP base installation under https://192.168.50.4:8083/
     * Wordpress base installation under https://192.168.50.4:8084/
 
-The installation process will create folders symfony-standard, laravel-quickstart, cakephp inside 
+The installation process will create folders symfony-standard, laravel-quickstart, cakephp, wordpress inside 
 the main directory of the repository. You can now start working inside 
 these folders directly on your host computer using your favourite IDE. 
 Changes done there will be reflected directly on the vagrant box as the 
@@ -41,6 +41,7 @@ Installed components
 * [git](http://git-scm.com/)
 * [Composer](https://getcomposer.org/)
 * [CakePHP 3](https://cakephp.org)
+* [Wordpress](https://wordpress.org)
 * [Symfony2 Standard Edition](https://github.com/symfony/symfony-standard)
 * [Laravel](https://laravel.com/)
 * [NodeJS](https://nodejs.org)
