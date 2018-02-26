@@ -10,9 +10,6 @@
     - npm
     - ruby
 
-- name: System upgrade
-  command: apt-get upgrade -y -qq
-
 - name: Install NodeJS
   shell: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install -y nodejs
 
