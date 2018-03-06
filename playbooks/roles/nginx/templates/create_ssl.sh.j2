@@ -1,0 +1,2 @@
+#!/bin/bash
+openssl req -reqexts SAN -extensions SAN -config <(cat /etc/ssl/openssl.cnf <(printf "\n[SAN]\nsubjectAltName=IP:192.168.50.4,DNS:dev.local:8083\n")) -x509 -newkey rsa:4096 -sha256 -nodes -keyout /etc/ssl/private/ssl.key -out /etc/ssl/certs/ssl.crt -subj "/CN=192.168.50.4:8081/CN=192.168.50.4:8082/CN=192.168.50.4:8083" -days 3650

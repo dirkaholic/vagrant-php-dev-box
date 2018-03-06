@@ -1,0 +1,55 @@
+---
+- name: Create MySQL database for Wordpress
+  mysql_db: name=wordpress state=present
+
+- name: Create MySQL user for Wordpress
+  mysql_user: name=wordpress password=wordpress priv=*.*:ALL state=present
+
+- name: Download wordpress
+  command: curl -O https://wordpress.org/latest.tar.gz 
+  args: 
+      chdir: /tmp/
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Unpack wordpress
+  command: tar -zxf latest.tar.gz -C /vagrant/ 
+  args: 
+      chdir: /tmp/
+      creates: /vagrant/wordpress
+  become: true
+  become_user: "{{ www_user }}"
+  
+- name: Fetch random salts for WordPress config
+  local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
+  register: "wp_salt"
+  become: no
+
+- name: Copy across new wp-config.php
+  template:
+    src=wp-config.php.j2
+    dest=/vagrant/wordpress/wp-config.php
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Copy across new php-fpm pool config for Wordpress
+  template:
+    src=php-fpm.conf.j2
+    dest=/etc/php/{{ php_version }}/fpm/pool.d/wordpress.conf
+  notify:
+    - restart php-fpm
+
+- name: Copy across new virtual host for Wordpress
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/wordpress.conf
+  notify:
+    - restart nginx
+
+- name: Enable new vagrant virtual host for Wordpress
+  file:
+    src=/etc/nginx/sites-available/wordpress.conf
+    dest=/etc/nginx/sites-enabled/wordpress.conf
+    state=link
+  notify:
+    - restart nginx

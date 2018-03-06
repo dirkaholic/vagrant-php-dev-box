@@ -15,5 +15,7 @@
     - php
     - php-devtools
     - php-fpm
-    - symfony-standard
+    - cakephp
     - laravel-quickstart
+    - symfony-standard
+    - wordpress

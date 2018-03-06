@@ -1,8 +1,15 @@
 - name: Install required base packages
   apt: name={{ item }} state=present
+  
   with_items:
     - curl
     - git
     - python-mysqldb
     - zip
     - unzip
+    - npm
+    - ruby
+
+- name: Install NodeJS
+  shell: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash - && sudo apt-get install -y nodejs
+

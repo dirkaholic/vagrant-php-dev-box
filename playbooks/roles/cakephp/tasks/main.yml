@@ -1,0 +1,147 @@
+---
+- name: Create MySQL database for CakePHP
+  mysql_db: name=cakephp state=present
+
+- name: Create MySQL user for CakePHP
+  mysql_user: name=cakephp password=cakephp priv=*.*:ALL state=present
+
+- name: Install CakePHP
+  command: composer create-project --prefer-dist cakephp/app cakephp
+  args: 
+      chdir: /vagrant 
+      creates: /vagrant/cakephp 
+  become: true
+  become_user: "{{ www_user }}"
+  ignore_errors: yes
+
+- name: Remove default CakePHP app.php
+  file:
+    path=/vagrant/cakephp/config/app.php
+    state=absent
+
+- name: Copy across new CakePHP app.php
+  template:
+    src=app.php.j2
+    dest=/vagrant/cakephp/config/app.php
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Remove default CakePHP composer.json
+  file:
+    path=/vagrant/cakephp/composer.json
+    state=absent
+
+- name: Copy across new composer.json
+  template:
+    src=composer.json.j2
+    dest=/vagrant/cakephp/composer.json
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Composer Update (to install Foundation 6)
+  shell: cd /vagrant/cakephp && composer update
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Copy across new php-fpm pool config for CakePHP
+  template:
+    src=php-fpm.conf.j2
+    dest=/etc/php/{{ php_version }}/fpm/pool.d/cakephp.conf
+  notify:
+    - restart php-fpm
+
+- name: Copy across new virtual host for CakePHP
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/cakephp.conf
+  notify:
+    - restart nginx
+
+- name: Enable new vagrant virtual host for cakephp
+  file:
+    src=/etc/nginx/sites-available/cakephp.conf
+    dest=/etc/nginx/sites-enabled/cakephp.conf
+    state=link
+  notify:
+    - restart nginx
+
+- name: Copy NPM package.json
+  template:
+    src=package.json.j2
+    dest=/vagrant/cakephp/package.json
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: NPM Install
+  shell: cd /vagrant/cakephp && sudo npm -g install grunt
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: NPM Install local project
+  shell: cd /vagrant/cakephp && npm --no-bin-links install
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Install required GEM packages
+  apt: name={{ item }} state=present
+  with_items:
+    - ruby-sass
+
+- name: Install GEM
+  shell: cd /vagrant/cakephp && sudo apt-get -y install ruby-sass
+
+- name: Install GEM
+  shell: cd /vagrant/cakephp && sudo gem install sass 
+
+- name: Copy gruntfile.js
+  template:
+    src=gruntfile.js.j2
+    dest=/vagrant/cakephp/gruntfile.js
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Make sass directories
+  shell: mkdir /vagrant/cakephp/webroot/scss
+  become: true
+  become_user: "{{ www_user }}"
+  ignore_errors: yes
+
+- name: Copy default layout with new sass
+  template:
+    src=default.ctp.j2
+    dest=/vagrant/cakephp/src/Template/Layout/default.ctp
+  become: true
+  become_user: "{{ www_user }}"
+  ignore_errors: yes
+
+- name: Copy default layout with new sass
+  template:
+    src=main.scss.j2
+    dest=/vagrant/cakephp/webroot/scss/main.scss
+  become: true
+  become_user: "{{ www_user }}"
+  ignore_errors: yes
+
+- name: Copy js with new custom js
+  template:
+    src=custom.js.j2
+    dest=/vagrant/cakephp/webroot/js/custom.js
+  become: true
+  become_user: "{{ www_user }}"
+  ignore_errors: yes
+
+- name: Copy over rc.local file
+  template:
+    src=rc.local.j2
+    dest=/etc/rc.local
+  ignore_errors: yes
+
+- name: setup GRUNT on boot
+  shell: sudo systemctl enable rc-local.service
+
+- name: Copy Foundation Icons
+  shell: cp -fr /vagrant/cakephp/node_modules/foundation-icons /vagrant/cakephp/webroot/font/foundation-icons
+  become: true
+  become_user: "{{ www_user }}"  
+  ignore_errors: yes
+

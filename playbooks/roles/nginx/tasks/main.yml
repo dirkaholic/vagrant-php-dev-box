@@ -15,3 +15,18 @@
     state=absent
   notify:
     - restart nginx
+
+- name: Copy across OpenSSL Script
+  template:
+    src=create_ssl.sh.j2
+    dest=/vagrant/create_ssl.sh
+
+- name: Sign Certificate
+  script: /vagrant/create_ssl.sh
+  notify:
+    - restart nginx
+    
+- name: Remove default virtual host
+  file:
+    path=/vagrant/create_ssl.sh
+    state=absent

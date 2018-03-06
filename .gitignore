@@ -1,3 +1,8 @@
 .DS_Store
 .vagrant
 .idea/
+/cakephp/
+/symfony-standard/
+/wordpress/
+/laravel-quickstart/
+/create_ssl.sh
