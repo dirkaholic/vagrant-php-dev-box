@@ -1,0 +1,50 @@
+---
+- name: Install required php packages for mautic
+  apt: name={{ item }} state=present
+  with_items:
+    - php{{ php_version }}-zip
+    - php{{ php_version }}-xml
+    - php{{ php_version }}-imap
+    - php{{ php_version }}-curl
+    - php{{ php_version }}-bcmath
+    - php-mailparse
+
+- name: Create MySQL database for mautic
+  mysql_db: name=mautic state=present
+
+- name: Create MySQL user for mautic
+  mysql_user: name=mautic password=mautic priv=*.*:ALL state=present
+
+- name: Clone mautic
+  git: repo=https://github.com/mautic/mautic.git
+       dest=/vagrant/mautic
+       update=no
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Install Mautic project dependencies
+  shell: cd /vagrant/mautic && COMPOSER_PROCESS_TIMEOUT={{composer_process_timeout}} composer install
+  become: true
+  become_user: "{{ www_user }}"
+
+- name: Copy across new php-fpm pool config for mautic
+  template:
+    src=php-fpm.conf.j2
+    dest=/etc/php/{{ php_version }}/fpm/pool.d/mautic.conf
+  notify:
+    - restart php-fpm
+
+- name: Copy across new virtual host for mautic
+  template:
+    src=nginx.conf.j2
+    dest=/etc/nginx/sites-available/mautic.conf
+  notify:
+    - restart nginx
+
+- name: Enable new vagrant virtual host for mautic
+  file:
+    src=/etc/nginx/sites-available/mautic.conf
+    dest=/etc/nginx/sites-enabled/mautic.conf
+    state=link
+  notify:
+    - restart nginx

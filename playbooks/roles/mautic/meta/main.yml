@@ -1,0 +1,7 @@
+---
+dependencies:
+  - { role: base }
+  - { role: mysql }
+  - { role: php-fpm }
+  - { role: php-devtools }
+  - { role: nginx }

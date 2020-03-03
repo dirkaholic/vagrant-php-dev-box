@@ -17,3 +17,4 @@
     - php-fpm
     - symfony-standard
     - laravel-quickstart
+    - mautic
